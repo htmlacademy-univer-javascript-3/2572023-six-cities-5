@@ -1,5 +1,5 @@
 import {PlaceCard} from '../../components/place-card/place-card';
-import {MainScreenProps} from '../../props/main-screen-props/main-screen-props.ts';
+import {MainScreenProps} from './main-screen-props.ts';
 
 function MainScreen({placesCount}: MainScreenProps): JSX.Element {
   return (

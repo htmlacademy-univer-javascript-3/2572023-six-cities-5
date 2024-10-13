@@ -1,4 +1,4 @@
-import {PlaceCardProps} from '../../props/place-card-props/place-card-props.ts';
+import {PlaceCardProps} from './place-card-props.ts';
 
 export function PlaceCard(placeCard: PlaceCardProps): JSX.Element {
   const bookmarkButtonClassName = `${placeCard.isBookmarked ? 'place-card__bookmark-button--active' : ''} button`;
