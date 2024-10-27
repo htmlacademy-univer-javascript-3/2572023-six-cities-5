@@ -1,18 +1,18 @@
-const centerStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '100vh',
-  flexDirection: 'column',
-};
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { AppRoute} from '../../app-routes.ts';
 
-export function NotFoundScreen(): JSX.Element {
+export default function NotFoundScreen(): JSX.Element {
   return (
-    <div style={centerStyle}>
-      <h1>404 Not Found</h1>
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      <p>Oops! Looks like you've hit a page that doesn't exist.</p>
-      <a href="/">Go back to the main page</a>
-    </div>
+    <section className="six-cities">
+      <Helmet>
+        <title>6 cities: page not found</title>
+      </Helmet>
+
+      <section className="error__page" style={{textAlign: 'center', marginTop: '15%', fontSize: '28px'}}>
+        <h1 className="error__name">Error 404: Page not found</h1>
+        <Link to={AppRoute.Root}>Return to root page</Link>
+      </section>
+    </section>
   );
 }
