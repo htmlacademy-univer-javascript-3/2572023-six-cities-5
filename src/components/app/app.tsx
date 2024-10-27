@@ -1,24 +1,48 @@
-import MainScreen from '../../pages/main-screen/main-screen';
-import {AppScreenProps} from './app-screen-props.ts';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {LoginScreen} from '../../pages/login-screen/login-screen.tsx';
-import {FavoritesScreen} from '../../pages/favorites-screen/favorites-screen.tsx';
-import {OfferScreen} from '../../pages/offer-screen/offer-screen.tsx';
-import {NotFoundScreen} from '../../pages/not-found-screen/not-found-screen.tsx';
-import {PrivateRoute} from '../private-route/private-route.tsx';
-import {AppRoutes} from '../../app-routes.ts';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {HelmetProvider} from 'react-helmet-async';
+import { AuthorizationStatus} from '../../authorization-status.ts';
+import PrivateRoute from '@components/private-route/private-route';
+import LoginScreen from '@pages/login-screen/login-screen';
+import MainScreen from '@pages/main-screen/main-screen';
+import OfferScreen from '@pages/offer-screen/offer-screen';
+import FavoritesScreen from '@pages/favorites-screen/favorites-screen';
+import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
+import {AppProps} from '@components/app/app-props.ts';
+import {AppRoute} from '../../app-routes.ts';
 
-
-export function App({placesCount}: AppScreenProps): JSX.Element {
+export default function App({placesCount, offers}: AppProps): JSX.Element {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={AppRoutes.MainScreen} element={<MainScreen placesCount={placesCount}/>}/>
-        <Route path={AppRoutes.LoginScreen} element={<LoginScreen/>}/>
-        <Route path={AppRoutes.FavoritesScreen} element={PrivateRoute(false, <FavoritesScreen />)}/>
-        <Route path={AppRoutes.OfferScreen} element={<OfferScreen/>}/>
-        <Route path={AppRoutes.NotFoundScreen} element={<NotFoundScreen/>}/>
-      </Routes>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path={AppRoute.Root}
+            element={<MainScreen placesCount={placesCount} offers={offers}/>}
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<LoginScreen />}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute
+                authorizationStatus={AuthorizationStatus.Auth}
+              >
+                <FavoritesScreen offers={offers}/>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={`${AppRoute.Offer}/:id`}
+            element={<OfferScreen offers={offers}/>}
+          />
+          <Route
+            path='*'
+            element={<NotFoundScreen />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }

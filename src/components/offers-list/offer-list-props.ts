@@ -1,6 +1,5 @@
 import {Offers} from '../../types/offer.ts';
 
-export type MainScreenProps = {
-  placesCount: number;
+export type OffersListProps = {
   offers: Offers;
-}
+};

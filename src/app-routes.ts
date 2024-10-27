@@ -1,7 +1,6 @@
-export enum AppRoutes{
-  MainScreen = '/',
-  LoginScreen = '/login',
-  FavoritesScreen = '/favorites',
-  OfferScreen = '/offer/:id',
-  NotFoundScreen = '*'
+export enum AppRoute {
+  Root = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer',
 }
