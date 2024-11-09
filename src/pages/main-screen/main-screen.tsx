@@ -3,8 +3,14 @@ import Logo from '@components/logo/logo';
 import Header from '@components/header/header.tsx';
 import {MainScreenProps} from '@pages/main-screen/main-screen-props.ts';
 import OffersList from '@components/offers-list/offers-list';
+import Map from '@pages/map/map.tsx';
+import { useState } from 'react';
 
 export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
+  const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -77,10 +83,14 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList offers={offers} onChange={setActiveOfferId}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={offers[0].city}
+                offers={offers}
+                selectedOffer={selectedOffer}
+              />
             </div>
           </div>
         </div>
