@@ -23,5 +23,5 @@ export default function ReviewItem({review}:ReviewItemProps): JSX.Element{
         <time className="reviews__time" dateTime={review.date}>   {new Date(review.date).toLocaleString('default', { month: 'long', year: 'numeric' })}</time>
       </div>
     </li>
-  )
+  );
 }

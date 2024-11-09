@@ -1,5 +1,5 @@
-import ReviewItem from "@components/review-item/review-item.tsx";
-import {ReviewsListProps} from "@components/review-list/review-list-props.ts";
+import ReviewItem from '@components/review-item/review-item.tsx';
+import {ReviewsListProps} from '@components/review-list/review-list-props.ts';
 
 export default function ReviewList({ reviews }: ReviewsListProps): JSX.Element {
   if (!reviews) {
