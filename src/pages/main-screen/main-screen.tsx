@@ -1,14 +1,25 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
 import Header from '@components/header/header.tsx';
-import {MainScreenProps} from '@pages/main-screen/main-screen-props.ts';
 import OffersList from '@components/offers-list/offers-list';
 import Map from '@pages/map/map.tsx';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
+import {useAppSelector} from '../../hooks';
+import {Offers} from '../../types/offer.ts';
+import {Cities} from '@components/cities-list/cities.ts';
+import CitiesList from '@components/cities-list/cities-list.tsx';
 
-export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.Element {
+export default function MainScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offersList);
+  const [, setCurrentCityOffers] = useState<Offers>(offers);
+
+  const city = useAppSelector((state) => state.city);
+  useEffect(() => {
+    const filteredOffers = offers.filter((offer) => offer.city.name === city);
+    setCurrentCityOffers(filteredOffers);
+  }, [city, offers]);
+
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-
   const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
 
   return (
@@ -29,45 +40,14 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CitiesList cities={Cities}/>
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{`${offers.length} places to stay in ${city}`}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>

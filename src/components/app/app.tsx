@@ -7,17 +7,25 @@ import MainScreen from '@pages/main-screen/main-screen';
 import OfferScreen from '@pages/offer-screen/offer-screen';
 import FavoritesScreen from '@pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
-import {AppProps} from '@components/app/app-props.ts';
 import {AppRoute} from '../../app-routes.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {setOffersInDetails, setOffersList, setReviews} from '../../store/action.ts';
 
-export default function App({placesCount, offers}: AppProps): JSX.Element {
+export default function App(): JSX.Element {
+  const offers = useAppSelector((state) => state.offersList);
+  const reviews = useAppSelector((state) => state.reviews);
+  const offersInDetails = useAppSelector((state) => state.offersInDetails);
+  const dispatch = useAppDispatch();
+  dispatch(setOffersList(offers));
+  dispatch(setReviews(reviews));
+  dispatch(setOffersInDetails(offersInDetails));
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainScreen placesCount={placesCount} offers={offers}/>}
+            element={<MainScreen />}
           />
           <Route
             path={AppRoute.Login}
@@ -29,13 +37,13 @@ export default function App({placesCount, offers}: AppProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesScreen offers={offers}/>
+                <FavoritesScreen />
               </PrivateRoute>
             }
           />
           <Route
             path={`${AppRoute.Offer}/:id`}
-            element={<OfferScreen offers={offers}/>}
+            element={<OfferScreen />}
           />
           <Route
             path='*'
