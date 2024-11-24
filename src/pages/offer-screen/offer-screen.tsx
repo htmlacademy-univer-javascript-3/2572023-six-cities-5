@@ -4,13 +4,15 @@ import { Helmet } from 'react-helmet-async';
 import {useParams} from 'react-router-dom';
 import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
+import {useAppSelector} from '../../hooks';
 import {OfferScreenProps} from '@pages/offer-screen/offer-screen-props.ts';
 import ReviewList from '@components/review-list/review-list.tsx';
 import {reviews} from '../../mocks/reviews.ts';
 import Map from '@pages/map/map.tsx';
 import OffersList from '@components/offers-list/offers-list.tsx';
 
-export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
+export default function OfferScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offersList);
   const params = useParams();
   const offer = offers.find((item) => item.id === params.id);
   const threeOtherOffers = offers.filter((otherOffer) => otherOffer.id !== offer?.id).slice(0, 3);

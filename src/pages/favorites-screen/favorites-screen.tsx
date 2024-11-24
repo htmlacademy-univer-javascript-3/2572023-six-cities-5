@@ -3,11 +3,11 @@ import Logo from '@components/logo/logo';
 import Header from '@components/header/header.tsx';
 import { Link } from 'react-router-dom';
 import { AppRoute} from '../../app-routes.ts';
-import {FavoritesScreenProps} from '@pages/favorites-screen/favorite-screen-props.ts';
+import {useAppSelector} from '../../hooks';
 
-export default function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
+export default function FavoritesScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offersList);
   const favorites = offers.filter((offer) => offer.isBookmarked);
-
   const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();
 
   return (
