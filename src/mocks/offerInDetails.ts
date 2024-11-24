@@ -1,4 +1,4 @@
-import { OffersInDetails } from '../types/offerInDetails';
+import { OffersInDetails } from '../types/offer-details';
 
 export const offersInDetails: OffersInDetails = [
   {
@@ -41,7 +41,7 @@ export const offersInDetails: OffersInDetails = [
     'host': {
       'isPro': true,
       'name': 'Angelina',
-      'avatarUrl': 'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
+      'imageSrc': 'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
     },
     'isPremium': true,
     'isFavorite': false,
