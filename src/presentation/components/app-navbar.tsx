@@ -1,11 +1,12 @@
 import { AppRoutes } from '../../routing/app-routes';
+import {memo} from 'react';
 
 
 export type AppNavBarProps = {
   isActive: boolean;
 }
 
-export function AppNavBar({ isActive }: AppNavBarProps) {
+function AppNavBar({ isActive }: AppNavBarProps) {
   return (
     <header className="header">
       <div className="container">
@@ -40,3 +41,6 @@ export function AppNavBar({ isActive }: AppNavBarProps) {
     </header>
   );
 }
+
+const MemoizedAppNavBar = memo(AppNavBar);
+export default MemoizedAppNavBar;

@@ -1,17 +1,18 @@
 import { Offer } from '../../../../domain/models/offer';
-import { FavoriteCard } from './favorite-card';
+import MemoizedFavoriteCard from './favorite-card';
+import {memo} from 'react';
 
 export type FavoriteListProps = {
   offers: Offer[];
 }
 
-export function FavoriteList({ offers }: FavoriteListProps) {
+function FavoriteList({ offers }: FavoriteListProps) {
   return (
     <div className='favorites__places'>
       {
         offers
           .map((offer) => (
-            <FavoriteCard
+            <MemoizedFavoriteCard
               key={offer.id}
               offer={offer}
             />)
@@ -20,3 +21,6 @@ export function FavoriteList({ offers }: FavoriteListProps) {
     </div>
   );
 }
+
+const MemoizedFavoriteList = memo(FavoriteList);
+export default MemoizedFavoriteList;

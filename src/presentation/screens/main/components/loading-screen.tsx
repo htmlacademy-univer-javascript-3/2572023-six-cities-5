@@ -1,4 +1,6 @@
-export function LoadingScreen() {
+import {memo} from 'react';
+
+function LoadingScreen() {
   return (
     <div style={
       {
@@ -15,3 +17,6 @@ export function LoadingScreen() {
     </div>
   );
 }
+
+const MemoizedLoadingScreen = memo(LoadingScreen);
+export default MemoizedLoadingScreen;

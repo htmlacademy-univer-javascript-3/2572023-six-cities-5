@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../../routing/app-routes';
+import {memo} from 'react';
 
 export function NotFoundPage() {
   return (
@@ -14,3 +15,6 @@ export function NotFoundPage() {
     </div>
   );
 }
+
+const MemoizedNotFoundPage = memo(NotFoundPage);
+export default MemoizedNotFoundPage;

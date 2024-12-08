@@ -1,3 +1,5 @@
+import {memo} from 'react';
+
 export type CityHeaderProps = {
   city: string;
   cities: string[];
@@ -28,3 +30,6 @@ export function CityHeader({ city, cities, onCityClicked }: CityHeaderProps) {
     </div>
   );
 }
+
+const MemoizedCityHeader = memo(CityHeader);
+export default MemoizedCityHeader;

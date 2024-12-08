@@ -1,4 +1,6 @@
-export function LoginPage() {
+import {memo} from 'react';
+
+function LoginPage() {
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -41,3 +43,6 @@ export function LoginPage() {
     </div>
   );
 }
+
+const MemoizedLoginPage = memo(LoginPage);
+export default MemoizedLoginPage;

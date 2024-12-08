@@ -1,19 +1,18 @@
 import { useParams } from 'react-router-dom';
-import { NotFoundPage } from '../not-found/not-found';
-import { Map } from '../main/components/map';
-import { OfferList } from '../../components/offer-list';
+import MemoizedNotFoundPage from '../not-found/not-found';
+import MemoizedMap from '../main/components/map';
+import MemoizedOfferList from '../../components/offer-list';
 import { ReviewList } from './components/review-list';
-
 import { GoodsList } from './components/goods-list';
-import { AppNavBar } from '../../components/app-navbar';
+import MemoizedAppNavBar from '../../components/app-navbar';
 import { Offer } from '../../../domain/models/offer';
 import { Review } from '../../../domain/models/review';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { AppState } from '../../store/reducer';
-import { useEffect } from 'react';
+import {memo, useEffect} from 'react';
 import { fetchOfferDetailsAction } from '../../store/api-actions';
-import { LoadingScreen } from '../main/components/loading-screen';
+import MemoizedLoadingScreen from '../main/components/loading-screen';
 import { OfferGallery } from './components/offer-gallery';
 
 export function OfferPage() {
@@ -32,16 +31,16 @@ export function OfferPage() {
   }, [dispatch, id]);
 
   if (isOfferLoading) {
-    return <LoadingScreen />;
+    return <MemoizedLoadingScreen />;
   }
 
   if (offer === undefined) {
-    return <NotFoundPage />;
+    return <MemoizedNotFoundPage />;
   }
 
   return (
     <div className="page">
-      <AppNavBar isActive />
+      <MemoizedAppNavBar isActive />
       <main className="page__main page__main--offer">
         <section className="offer">
           <OfferGallery images={offer.images} />
@@ -110,7 +109,7 @@ export function OfferPage() {
           </div>
           <section className="offer__map map">
 
-            <Map
+            <MemoizedMap
               city={offersNearby[0].city}
               offers={offersNearby}
               activeOfferId={offer.id}
@@ -122,7 +121,7 @@ export function OfferPage() {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OfferList
+            <MemoizedOfferList
               offers={offersNearby}
               className={'near-places__list places__list'}
             />
@@ -132,3 +131,6 @@ export function OfferPage() {
     </div>
   );
 }
+
+const MemoizedOfferPage = memo(OfferPage);
+export default MemoizedOfferPage;

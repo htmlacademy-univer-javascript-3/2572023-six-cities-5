@@ -1,5 +1,6 @@
 import { Offer } from '../../domain/models/offer';
-import { OfferItem } from './offer-item';
+import MemoizedOfferItem from './offer-item.tsx';
+import {memo} from 'react';
 
 export type OfferListProps = {
   offers: Offer[];
@@ -8,13 +9,13 @@ export type OfferListProps = {
   onMouseLeave?: (id: string) => void;
 }
 
-export function OfferList({ offers, className, onMouseEnter, onMouseLeave }: OfferListProps) {
+function OfferList({ offers, className, onMouseEnter, onMouseLeave }: OfferListProps) {
   return (
     <div className={className}>
       {
         offers
           .map((offer) => (
-            <OfferItem
+            <MemoizedOfferItem
               key={offer.id}
               offer={offer}
               onMouseEnter={(id) => onMouseEnter?.(id)}
@@ -25,3 +26,6 @@ export function OfferList({ offers, className, onMouseEnter, onMouseLeave }: Off
     </div>
   );
 }
+
+const MemoizedOfferList = memo(OfferList);
+export default MemoizedOfferList;

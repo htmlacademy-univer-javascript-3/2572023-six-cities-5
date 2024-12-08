@@ -1,6 +1,7 @@
 import { Offer } from '../../../domain/models/offer';
-import { AppNavBar } from '../../components/app-navbar';
-import { FavoriteList } from './components/favorite-list';
+import MemoizedAppNavBar from '../../components/app-navbar';
+import MemoizedFavoriteList from './components/favorite-list';
+import {memo} from 'react';
 
 type FavoritesPageProps = {
   offers: Offer[];
@@ -9,7 +10,7 @@ type FavoritesPageProps = {
 export function FavoritesPage({ offers }: FavoritesPageProps) {
   return (
     <div className="page">
-      <AppNavBar isActive />
+      <MemoizedAppNavBar isActive />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
@@ -24,7 +25,7 @@ export function FavoritesPage({ offers }: FavoritesPageProps) {
                     </a>
                   </div>
                 </div>
-                <FavoriteList
+                <MemoizedFavoriteList
                   offers={offers.filter((offer) => offer.isFavorite)}
                 />
               </li>
@@ -40,3 +41,6 @@ export function FavoritesPage({ offers }: FavoritesPageProps) {
     </div>
   );
 }
+
+const MemoizedFavoritesPage = memo(FavoritesPage);
+export default MemoizedFavoritesPage;

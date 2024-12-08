@@ -1,29 +1,26 @@
-import { useState } from 'react';
+import {memo, useCallback, useState} from 'react';
 import { Offer } from '../../../domain/models/offer';
-import { OfferList } from '../../components/offer-list';
-import { Map } from './components/map';
-import { AppNavBar } from '../../components/app-navbar';
-import { CityHeader } from './components/city-header';
+import MemoizedOfferList from '../../components/offer-list';
+import MemoizedMap from './components/map';
+import MemoizedAppNavBar from '../../components/app-navbar';
+import MemoizedCityHeader from './components/city-header';
 import { selectCity, selectSorting } from '../../store/action';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { AppState } from '../../store/reducer';
 import { SortOptions } from './components/sort-options';
 import { SortType } from '../../../domain/models/sort-type';
-import { LoadingScreen } from './components/loading-screen';
+import MemoizedLoadingScreen from './components/loading-screen';
 
-export function MainPage() {
+function MainPage() {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
-  function onMouseEnter(id: string) {
-    setActiveOfferId(id);
-  }
-
-  function onMouseLeave(id: string) {
+  const onMouseEnter = useCallback((id: string) => setActiveOfferId(id), []);
+  const onMouseLeave = useCallback((id: string) => {
     if (activeOfferId === id) {
       setActiveOfferId(null);
     }
-  }
+  }, [activeOfferId]);
 
   const choosenCity = useSelector<AppState, string>((state) => state.selectedCity);
   const choosenSortType = useSelector<AppState, SortType>((state) => state.sortType);
@@ -58,10 +55,10 @@ export function MainPage() {
 
   return (
     <div className="page page--gray page--main">
-      <AppNavBar isActive={false} />
+      <MemoizedAppNavBar isActive={false} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <CityHeader
+        <MemoizedCityHeader
           city={choosenCity}
           cities={cities}
           onCityClicked={handleCityChoose}
@@ -78,7 +75,7 @@ export function MainPage() {
                     sortType={choosenSortType}
                     handleSortingChoose={handleSortingChoose}
                   />
-                  <OfferList
+                  <MemoizedOfferList
                     offers={choosenOffers}
                     className={'cities__places-list places__list tabs__content'}
                     onMouseEnter={onMouseEnter}
@@ -87,7 +84,7 @@ export function MainPage() {
                 </section>
 
                 <div className="cities__right-section">
-                  <Map
+                  <MemoizedMap
                     city={choosenOffers[0].city}
                     offers={choosenOffers}
                     activeOfferId={activeOfferId}
@@ -96,9 +93,12 @@ export function MainPage() {
                 </div>
               </div>
             </div>
-            : <LoadingScreen />
+            : <MemoizedLoadingScreen />
         }
       </main>
     </div>
   );
 }
+
+const MemoizedMainPage = memo(MainPage);
+export default MemoizedMainPage;

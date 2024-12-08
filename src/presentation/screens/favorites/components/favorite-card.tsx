@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../../../domain/models/offer';
 import { AppRoutes } from '../../../../routing/app-routes';
+import {memo, useMemo} from 'react';
 
 export type FavoriteCardProps = {
   offer: Offer;
 }
 
 export function FavoriteCard({ offer }: FavoriteCardProps) {
-  const bookmarkedClassName = offer.isFavorite && 'place-card__bookmark-button--active';
+  const bookmarkedClassName = useMemo(() => offer.isFavorite ? 'place-card__bookmark-button--active' : '', [offer.isFavorite]);
 
-  const link = AppRoutes.offer.replace(':id', offer.id);
+  const link = useMemo(() => AppRoutes.offer.replace(':id', offer.id), [offer.id]);
 
   return (
     <article className="favorites__card place-card">
@@ -49,3 +50,6 @@ export function FavoriteCard({ offer }: FavoriteCardProps) {
     </article>
   );
 }
+
+const MemoizedFavoriteCard = memo(FavoriteCard);
+export default MemoizedFavoriteCard;
