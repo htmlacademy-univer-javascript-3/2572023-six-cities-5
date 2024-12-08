@@ -1,46 +1,39 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
-import Header from '@components/header/header.tsx';
-import OffersList from '@components/offers-list/offers-list';
-import Map from '@pages/map/map.tsx';
-import {useEffect, useState} from 'react';
-import {useAppSelector} from '../../hooks';
-import {Offers} from '../../types/offer.ts';
-import {Cities} from '@components/cities-list/cities.ts';
-import CitiesList from '@components/cities-list/cities-list.tsx';
-import SortingOptions from '@components/sorting-options/sorting-options.tsx';
+import HeaderNav from '@components/header-nav/header-nav';
+import { useState, useMemo } from 'react';
+import CitiesList from '@components/cities-list/cities-list';
+import { useAppSelector } from '@hooks/index';
+import { SortType } from '@const';
+import CityPlacesEmpty from '@components/city-places-empty/city-place-empty';
+import CityPlaces from '@components/city-places/city-places';
+import { getOffers } from '@store/offers-data/selectors';
+import { getCity, getSortType } from '@store/app-data/selectors';
 
 export default function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offersList);
-  const [, setCurrentCityOffers] = useState<Offers>(offers);
-
-  const city = useAppSelector((state) => state.city);
-  useEffect(() => {
-    const filteredOffers = offers.filter((offer) => offer.city.name === city);
-    setCurrentCityOffers(filteredOffers);
-  }, [city, offers]);
+  const offers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
+  const sortType = useAppSelector(getSortType);
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-  const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
+  const selectedOffer = useMemo(() => offers.find((offer) => offer.id === activeOfferId), [activeOfferId, offers]);
 
-  const [currentSortType, setCurrentSortType] = useState('popular');
+  const currentCityOffers = useMemo(() => {
+    const filteredOffers = offers.filter((offer) => offer.city.name === city.name);
 
-  const handleSortChange = (sortType: string) => {
-    setCurrentSortType(sortType);
-  };
-
-  const sortedOffers = () => {
-    switch (currentSortType) {
-      case 'lowToHigh':
-        return [...offers].sort((a, b) => a.price - b.price);
-      case 'highToLow':
-        return [...offers].sort((a, b) => b.price - a.price);
-      case 'topRated':
-        return [...offers].sort((a, b) => b.starsCount - a.starsCount);
-      default:
-        return offers; // 'popular' - оригинальный порядок
-    }
-  };
+    return [...filteredOffers].sort((a, b) => {
+      switch (sortType) {
+        case SortType.PriceLowToHigh:
+          return a.price - b.price;
+        case SortType.PriceHighToLow:
+          return b.price - a.price;
+        case SortType.TopRated:
+          return b.rating - a.rating;
+        default:
+          return 0;
+      }
+    });
+  }, [city, offers, sortType]);
 
   return (
     <div className="page page--gray page--main">
@@ -51,34 +44,29 @@ export default function MainScreen(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Header offers={offers}/>
+            <HeaderNav/>
           </div>
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${currentCityOffers.length === 0 ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList cities={Cities}/>
+            <CitiesList/>
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${offers.length} places to stay in ${city}`}</b>
-              <SortingOptions onSortChange={handleSortChange} currentSortType={currentSortType} />
-              <OffersList offers={sortedOffers()} onChange={setActiveOfferId}/>
-            </section>
-            <div className="cities__right-section">
-              <Map
-                city={offers[0].city}
-                offers={offers}
-                selectedOffer={selectedOffer}
-              />
-            </div>
-          </div>
+          {currentCityOffers.length > 0 ? (
+            <CityPlaces
+              city={city}
+              offers={currentCityOffers}
+              selectedOffer={selectedOffer}
+              onActiveOfferChange={setActiveOfferId}
+            />
+          ) : (
+            <CityPlacesEmpty city={city.name} />
+          )}
         </div>
       </main>
     </div>

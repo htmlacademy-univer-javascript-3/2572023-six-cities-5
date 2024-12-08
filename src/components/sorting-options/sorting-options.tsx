@@ -1,41 +1,50 @@
-import React from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
+import { SortType } from '@const';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { getSortType } from '@store/app-data/selectors';
+import { setSortType } from '@store/app-data/app-data';
 
-interface SortingOptionsProps {
-  onSortChange: (sortType: string) => void;
-  currentSortType: string;
-}
+function SortingOptions(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const currentSortType = useAppSelector(getSortType);
+  const [isOpen, setIsOpen] = useState(false);
 
-const SortingOptions: React.FC<SortingOptionsProps> = ({ onSortChange, currentSortType }) => {
-  const sortingTypes = [
-    { label: 'Popular', value: 'popular' },
-    { label: 'Price: low to high', value: 'lowToHigh' },
-    { label: 'Price: high to low', value: 'highToLow' },
-    { label: 'Top rated first', value: 'topRated' },
-  ];
+  const handleOptionClick = useCallback(
+    (sortType: SortType) => {
+      dispatch(setSortType(sortType));
+      setIsOpen(false);
+    },
+    [dispatch]
+  );
+
+  const sortOptions = useMemo(() => Object.values(SortType), []);
 
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
-        {sortingTypes.find((type) => type.value === currentSortType)?.label}
+      <span className="places__sorting-caption">Sort by </span>
+      <span className="places__sorting-type" tabIndex={0} onClick={() => setIsOpen(!isOpen)}>
+        {currentSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
-        {sortingTypes.map(({ label, value }) => (
-          <li
-            key={value}
-            className={`places__option ${currentSortType === value ? 'places__option--active' : ''}`}
-            tabIndex={0}
-            onClick={() => onSortChange(value)}
-          >
-            {label}
-          </li>
-        ))}
-      </ul>
+      {isOpen && (
+        <ul className="places__options places__options--custom places__options--opened">
+          {sortOptions.map((sortType) => (
+            <li
+              key={sortType}
+              className={`places__option ${currentSortType === sortType ? 'places__option--active' : ''}`}
+              tabIndex={0}
+              onClick={() => handleOptionClick(sortType)}
+            >
+              {sortType}
+            </li>
+          ))}
+        </ul>
+      )}
     </form>
   );
-};
+}
 
-export default SortingOptions;
+const MemoizedSortingOptions = memo(SortingOptions);
+export default MemoizedSortingOptions;
