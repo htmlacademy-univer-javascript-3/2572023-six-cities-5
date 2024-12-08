@@ -1,17 +1,9 @@
-import { Offer, Offers } from '@typings/offer';
-import { City } from '@typings/city';
 import Map from '@components/map/map';
 import { MapClassName } from '@const';
 import SortingOptions from '@components/sorting-options/sorting-options';
 import OffersList from '@components/offers-list/offers-list';
 import { memo } from 'react';
-
-type CityPlacesProps = {
-  city: City;
-  offers: Offers;
-  selectedOffer: Offer | undefined;
-  onActiveOfferChange: (offerId: string | null) => void;
-}
+import {CityPlacesProps} from '@components/city-places/city-places-props.ts';
 
 function CityPlaces({city, offers, selectedOffer, onActiveOfferChange }: CityPlacesProps): JSX.Element {
   return (

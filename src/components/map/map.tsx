@@ -1,17 +1,9 @@
 import {useRef, useEffect, useMemo, memo} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import useMap from '@hooks/use-map';
-import { City } from '@typings/city';
-import { Offer, Offers } from '@typings/offer';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '@const';
 import 'leaflet/dist/leaflet.css';
-
-type MapProps = {
-    city: City;
-    offers: Offers;
-    selectedOffer: Offer | undefined;
-    className: string;
-  };
+import {MapProps} from '@components/map/map-props.ts';
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,

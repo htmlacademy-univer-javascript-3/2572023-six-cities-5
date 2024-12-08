@@ -1,17 +1,10 @@
-import { Offer } from '@typings/offer';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, CardImageWrapperClass, CardType } from '@const';
 import { toggleFavoriteStatusAction } from '@store/api-actions';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { memo, useCallback } from 'react';
 import { getAuthorizationStatus } from '@store/user-process/selectors';
-
-type PlaceCardProps = {
-  offer: Offer;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-  cardType: CardType;
-}
+import {PlaceCardProps} from '@components/place-card/place-card-props.ts';
 
 function PlaceCard({offer, onMouseEnter, onMouseLeave, cardType}: PlaceCardProps): JSX.Element {
   const dispatch = useAppDispatch();

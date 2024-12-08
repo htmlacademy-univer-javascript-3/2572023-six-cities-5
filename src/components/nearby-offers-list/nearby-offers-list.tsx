@@ -1,11 +1,7 @@
-import { Offers } from '@typings/offer';
 import PlaceCard from '@components/place-card/place-card';
 import { CardType } from '@const';
 import { memo } from 'react';
-
-type NearbyOffersListProps = {
-  offers: Offers | undefined;
-};
+import {NearbyOffersListProps} from '@components/nearby-offers-list/nearby-offers-list-props.ts';
 
 function NearbyOffersList({ offers }: NearbyOffersListProps): JSX.Element {
   return (

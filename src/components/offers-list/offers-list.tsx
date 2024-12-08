@@ -1,12 +1,7 @@
-import { Offers } from '@typings/offer';
 import PlaceCard from '@components/place-card/place-card';
 import { CardType } from '@const';
 import { useState, useEffect, memo, useCallback } from 'react';
-
-type OffersListProps = {
-    offers: Offers;
-    onActiveOfferChange: (offerId: string | null) => void;
-};
+import {OffersListProps} from '@components/offers-list/offers-list-props.ts';
 
 function OffersList({offers, onActiveOfferChange}: OffersListProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);

@@ -7,7 +7,6 @@ import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
 import { memo, useMemo } from 'react';
 import { getOffers } from '@store/offers-data/selectors';
 
-
 function FavoritesScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
 

@@ -1,4 +1,4 @@
-import { NameSpace } from '../../const';
+import { NameSpace } from '@const';
 import { State } from '@typings/state';
 import { OfferInDetails } from '@typings/offerInDetails';
 import { Reviews } from '@typings/review';

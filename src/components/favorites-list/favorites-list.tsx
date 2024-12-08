@@ -1,13 +1,8 @@
 import { Link } from 'react-router-dom';
 import PlaceCard from '@components/place-card/place-card';
 import { CardType } from '@const';
-import { Offers } from '@typings/offer';
 import { memo } from 'react';
-
-interface FavoritesListProps {
-  cities: string[];
-  favorites: Offers;
-}
+import {FavoritesListProps} from '@components/favorites-list/favorites-list-props.ts';
 
 function FavoritesList({ cities, favorites }: FavoritesListProps): JSX.Element {
   return (

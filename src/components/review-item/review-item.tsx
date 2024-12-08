@@ -1,9 +1,5 @@
-import { Review } from '@typings/review';
 import { memo } from 'react';
-
-type ReviewItemProps = {
-  review: Review;
-};
+import {ReviewItemProps} from '@components/review-item/review-item-props.ts';
 
 function ReviewItem({ review }: ReviewItemProps): JSX.Element {
   const { user, rating, comment, date } = review;

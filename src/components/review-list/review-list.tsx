@@ -1,10 +1,6 @@
 import ReviewItem from '@components/review-item/review-item';
-import { Reviews } from '@typings/review';
 import { memo, useMemo } from 'react';
-
-type ReviewsListProps = {
-  reviews: Reviews | undefined;
-};
+import {ReviewsListProps} from '@components/review-list/review-list-props.ts';
 
 function ReviewsList({ reviews }: ReviewsListProps): JSX.Element {
   const sortedReviews = useMemo(() => {
