@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import {memo, useEffect, useMemo, useRef} from 'react';
 import { useMap } from '../hooks/use-map';
 import { Offer } from '../../../../domain/models/offer';
 import { City } from '../../../../domain/models/city';
@@ -11,7 +11,7 @@ export type MapProps = {
   className: string;
 }
 
-export function Map({ city, offers, activeOfferId, className }: MapProps) {
+function Map({ city, offers, activeOfferId, className }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -27,21 +27,18 @@ export function Map({ city, offers, activeOfferId, className }: MapProps) {
     iconAnchor: [20, 40],
   });
 
+  const markers = useMemo(() => offers.map((offer) => leaflet.marker({
+    lat: offer.location.latitude,
+    lng: offer.location.longitude
+  }, {
+    icon: offer.id === activeOfferId ? currentCustomIcon : defaultCustomIcon,
+  })), [offers, activeOfferId, currentCustomIcon, defaultCustomIcon]);
+
   useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
-        leaflet
-          .marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude
-          }, {
-            icon: offer.id === activeOfferId ? currentCustomIcon : defaultCustomIcon,
-          }).addTo(map);
-
-      });
-
+      markers.forEach((marker) => marker.addTo(map));
     }
-  }, [map, offers, city, activeOfferId, currentCustomIcon, defaultCustomIcon]);
+  }, [map, markers]);
 
   return (
     <div
@@ -50,3 +47,6 @@ export function Map({ city, offers, activeOfferId, className }: MapProps) {
     />
   );
 }
+
+const MemoizedMap = memo(Map);
+export default MemoizedMap;

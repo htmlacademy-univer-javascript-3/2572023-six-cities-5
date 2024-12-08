@@ -1,6 +1,7 @@
 import { Offer } from '../../domain/models/offer';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../routing/app-routes';
+import {memo, useMemo} from 'react';
 
 
 export type OfferItemProps = {
@@ -9,8 +10,8 @@ export type OfferItemProps = {
   onMouseLeave: (id: string) => void;
 }
 
-export function OfferItem({ offer, onMouseEnter, onMouseLeave }: OfferItemProps) {
-  const bookmarkedClassName = offer.isFavorite && 'place-card__bookmark-button--active';
+function OfferItem({ offer, onMouseEnter, onMouseLeave }: OfferItemProps) {
+  const bookmarkedClassName = useMemo(() => offer.isFavorite ? 'place-card__bookmark-button--active' : '', [offer.isFavorite]);
 
   const link = AppRoutes.offer.replace(':id', offer.id);
 
@@ -61,3 +62,6 @@ export function OfferItem({ offer, onMouseEnter, onMouseLeave }: OfferItemProps)
     </article>
   );
 }
+
+const MemoizedOfferItem = memo(OfferItem);
+export default MemoizedOfferItem;

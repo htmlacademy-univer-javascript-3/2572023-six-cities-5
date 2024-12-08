@@ -1,9 +1,9 @@
-import { FavoritesPage } from './screens/favorites/favorites-page';
-import { LoginPage } from './screens/login/login-page';
-import { MainPage } from './screens/main/main-page';
+import MemoizedFavoritesPage from './screens/favorites/favorites-page';
+import MemoizedLoginPage from './screens/login/login-page';
+import MemoizedMainPage from './screens/main/main-page';
+import MemoizedMainPageOfferPage from './screens/offer/offer-page';
+import MemoizedNotFoundPage from './screens/not-found/not-found';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { NotFoundPage } from './screens/not-found/not-found';
-import { OfferPage } from './screens/offer/offer-page';
 import { PrivateRoute } from '../routing/private-route';
 import { AppRoutes } from '../routing/app-routes';
 import { Provider } from 'react-redux';
@@ -14,17 +14,17 @@ export function App() {
     <Provider store={appStateStore}>
       <BrowserRouter>
         <Routes>
-          <Route path={AppRoutes.login} element={<LoginPage />} />
-          <Route path={AppRoutes.main} element={<MainPage />} />
-          <Route path={AppRoutes.offer} element={<OfferPage />} />
+          <Route path={AppRoutes.login} element={<MemoizedLoginPage />} />
+          <Route path={AppRoutes.main} element={<MemoizedMainPage />} />
+          <Route path={AppRoutes.offer} element={<MemoizedMainPageOfferPage />} />
           <Route path={AppRoutes.favorites}
             element={
               <PrivateRoute isAuthenticated={false}>
-                <FavoritesPage offers={[]} />
+                <MemoizedFavoritesPage offers={[]} />
               </PrivateRoute>
             }
           />
-          <Route path='*' element={<NotFoundPage />} />
+          <Route path='*' element={<MemoizedNotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </Provider>
