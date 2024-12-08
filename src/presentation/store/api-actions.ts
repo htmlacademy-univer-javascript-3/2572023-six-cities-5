@@ -3,7 +3,7 @@ import { AppDispatch } from '.';
 import { AppState } from './reducer';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../../domain/models/offer';
-import { APIRoute } from '../../const';
+import { APIRoute } from '../../const/const.ts';
 import { setOffers, setOffersLoadingStatus, setSelectedOffer, setSelectedOfferLoadingStatus } from './action';
 import { Review } from '../../domain/models/review';
 import { OfferDetails } from '../../domain/models/offer-details';
