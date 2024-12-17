@@ -6,6 +6,7 @@ export function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
   city: City,
 ) {
+  const { latitude, longitude, zoom } = city.location;
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
 
@@ -17,11 +18,8 @@ export function useMap(
     if (!isRenderedRef.current) {
 
       const instance = leaflet.map(mapRef.current, {
-        center: {
-          lat: city.location.latitude,
-          lng: city.location.longitude
-        },
-        zoom: city.location.zoom,
+        center: {lat: latitude, lng: longitude},
+        zoom: zoom,
       });
 
       leaflet
@@ -36,15 +34,9 @@ export function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     } else {
-      map?.setView(
-        {
-          lat: city.location.latitude,
-          lng: city.location.longitude
-        },
-        city.location.zoom
-      );
+      map?.setView({lat: latitude, lng: longitude}, zoom);
     }
-  }, [mapRef, city, map]);
+  }, [mapRef, city, map, latitude, longitude, zoom]);
 
   return map;
 }

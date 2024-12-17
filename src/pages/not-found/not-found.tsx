@@ -3,14 +3,9 @@ import { AppRoute } from '../../const';
 
 export function NotFoundPage() {
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh'
-    }}
-    >
-      <h1><Link to={AppRoute.Main}>404 Tap to return home</Link></h1>
+    <div style={{ textAlign: 'center' }}>
+      <h1>404</h1>
+      <h1><Link to={AppRoute.Main}>Return to home</Link></h1>
     </div>
   );
 }

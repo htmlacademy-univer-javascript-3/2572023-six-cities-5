@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '.';
 import { AppState } from './reducer';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
-import { addReview, clearFavorites, redirectToRoute, setAuthorizationStatus, setFavoriteOffers, setOffer, setOffers, setOffersLoadingStatus, setReviewFormIsSending, setSelectedOffer, setSelectedOfferLoadingStatus, setUserData, updateComment } from './action';
+import { APIRoute, AppRoute, AuthStatus } from '../const';
+import { addReview, clearFavorites, redirectToRoute, setAuthStatus, setFavoriteOffers, setOffer, setOffers, setOffersLoadingStatus, setReviewFormIsSending, setSelectedOffer, setSelectedOfferLoadingStatus, setUserData, updateComment } from './action';
 import { dropToken, saveToken } from '../services/token';
 import { Offer } from '../types/offer';
 import { Review } from '../types/review';
@@ -12,7 +12,6 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { ReviewAction } from '../types/review-action';
 import { FavoriteAction } from '../types/favorite-action';
-
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -127,10 +126,10 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
       const { data } = await api.get<UserData>(APIRoute.Login);
 
       dispatch(setUserData(data));
-      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+      dispatch(setAuthStatus(AuthStatus.Auth));
       dispatch(fetchFavoriteOffersAction());
     } catch {
-      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+      dispatch(setAuthStatus(AuthStatus.NoAuth));
     }
   },
 );
@@ -147,11 +146,11 @@ export const loginAction = createAsyncThunk<void, AuthData, {
       saveToken(data.token);
 
       dispatch(setUserData(data));
-      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+      dispatch(setAuthStatus(AuthStatus.Auth));
       dispatch(fetchFavoriteOffersAction());
       dispatch(redirectToRoute(AppRoute.Main));
     } catch (err) {
-      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+      dispatch(setAuthStatus(AuthStatus.NoAuth));
     }
   },
 );
@@ -172,6 +171,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(setUserData(undefined));
     dispatch(clearFavorites());
-    dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+    dispatch(setAuthStatus(AuthStatus.NoAuth));
   },
 );

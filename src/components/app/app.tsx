@@ -1,13 +1,13 @@
-import MemoizedFavoritesPage from '../../pages/favorites/favorites-page';
-import MemoizedLoginPage from '../../pages/login/login-page';
-import { MainPage } from '../../pages/main/main-page';
-import { NotFoundPage } from '../../pages/not-found/not-found';
-import MemoizedOfferPage from '../../pages/offer/offer-page';
+import MemoizedFavoritesPage from '@pages/favorites/favorites-page/favorites-page.tsx';
+import MemoizedLoginPage from '@pages/login/login-page/login-page.tsx';
+import MemoizedOfferPage from '@pages/offer/offer-page/offer-page.tsx';
+import { MainPage } from '@pages/main/main-page/main-page.tsx';
+import { NotFoundPage } from '@pages/not-found/not-found.tsx';
 import { PrivateRoute } from '../private-route/private-route';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import { LoadingScreen } from '../../pages/main/components/loading-screen';
+import { AppRoute, AuthStatus } from '../../const';
+import { LoadingScreen } from '@pages/loading-screen/loading-screen.tsx';
 import { AppLayout } from '../app-layout/app-layout';
 import { HistoryRouter } from '../history-router/history-router';
 import { browserHistory } from '../../browser-history';
@@ -20,9 +20,9 @@ import { FavoriteAction } from '../../types/favorite-action';
 import { GuestRoute } from '../guest-route/guest-route';
 
 export function App() {
-  const authorizationStatus = useSelector<AppState, AuthorizationStatus>((state) => state.authorizationStatus);
-  const authorized = authorizationStatus === AuthorizationStatus.Auth;
-  const isGuest = authorizationStatus === AuthorizationStatus.NoAuth;
+  const authStatus = useSelector<AppState, AuthStatus>((state) => state.authStatus);
+  const authorized = authStatus === AuthStatus.Auth;
+  const isGuest = authStatus === AuthStatus.NoAuth;
   const userData = useSelector<AppState, UserData | undefined>((state) => state.userData);
   const offers = useSelector<AppState, Offer[]>((state) => state.offers);
   const isOffersLoading = useSelector<AppState, boolean>((state) => state.isOffersLoading);
@@ -30,7 +30,7 @@ export function App() {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  if (authorizationStatus === AuthorizationStatus.Unknown) {
+  if (authStatus === AuthStatus.Unknown) {
     return (<LoadingScreen />);
   }
 

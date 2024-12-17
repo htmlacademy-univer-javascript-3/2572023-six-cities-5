@@ -1,36 +1,27 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { AppNavBar } from '../app-navbar/app-navbar';
+import { NavigationPage } from '@components/navigation-page/navigation-page.tsx';
 import { AppRoute } from '../../const';
-
-export type AppLayoutProps = {
-  email?: string;
-  favoriteCount?: number;
-  onSignOutClick: () => void;
-}
+import {AppLayoutProps} from '@components/app-layout/app-layout-props.ts';
 
 export function AppLayout({ email, favoriteCount, onSignOutClick }: AppLayoutProps) {
   const location = useLocation();
   const path = location.pathname;
-
   const isActive = path !== AppRoute.Main.toString();
   const isFavoritePage = path === AppRoute.Favorites.toString();
   const isNotLoginPage = path !== AppRoute.Login.toString();
+  let pageClass;
 
-  const pageClassLambda = (route: string) => {
-    if (route === AppRoute.Main.toString()) {
-      return 'page page--gray page--main';
-    } else if (route === AppRoute.Login.toString()) {
-      return 'page page--gray page--login';
-    } else {
-      return 'page';
-    }
-  };
-
-  const pageClass = pageClassLambda(path);
+  if (path === AppRoute.Main.toString()) {
+    pageClass = 'page page--gray page--main';
+  } else if (path === AppRoute.Login.toString()) {
+    pageClass = 'page page--gray page--login';
+  } else {
+    pageClass = 'page';
+  }
 
   return (
     <div className={pageClass}>
-      <AppNavBar
+      <NavigationPage
         isActive={isActive}
         email={email}
         favoriteCount={favoriteCount}
