@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { addReview, clearFavorites, selectCity, selectSorting, setAuthorizationStatus, setReviewFormIsSending, setFavoriteOffers, setOffer, setOffers, setOffersLoadingStatus, setSelectedOffer, setSelectedOfferLoadingStatus, setUserData, updateComment, updateRating } from './action';
+import { addReview, clearFavorites, selectCity, selectSorting, setAuthStatus, setReviewFormIsSending, setFavoriteOffers, setOffer, setOffers, setOffersLoadingStatus, setSelectedOffer, setSelectedOfferLoadingStatus, setUserData, updateComment, updateRating } from './action';
 import { Offer } from '../types/offer';
 import { SortType } from '../types/sort-type';
 import { OfferDetails } from '../types/offer-details';
-import { AuthorizationStatus } from '../const';
+import { AuthStatus } from '../const';
 import { UserData } from '../types/user-data';
 
 export type AppState = {
@@ -15,7 +15,7 @@ export type AppState = {
   selectedOffer?: OfferDetails;
   isOffersLoading: boolean;
   isSelectedOfferLoading: boolean;
-  authorizationStatus: AuthorizationStatus;
+  authStatus: AuthStatus;
   userData?: UserData;
   comment: string;
   rating: number;
@@ -36,7 +36,7 @@ const initialState: AppState = {
   selectedOffer: undefined,
   isOffersLoading: false,
   isSelectedOfferLoading: false,
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authStatus: AuthStatus.Unknown,
   comment: '',
   rating: 0,
   userData: undefined,
@@ -109,8 +109,8 @@ export const reducer = createReducer<AppState>(initialState, (builder) => {
         state.selectedOffer.isReviewFormSending = action.payload;
       }
     })
-    .addCase(setAuthorizationStatus, (state, action) => {
-      state.authorizationStatus = action.payload;
+    .addCase(setAuthStatus, (state, action) => {
+      state.authStatus = action.payload;
     })
     .addCase(setUserData, (state, action) => {
       state.userData = action.payload;

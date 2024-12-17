@@ -1,14 +1,5 @@
-import { FavoriteAction } from '../../types/favorite-action';
-import { Offer } from '../../types/offer';
 import { OfferItem } from '../offer-item/offer-item';
-
-export type OfferListProps = {
-  offers: Offer[];
-  className: string;
-  onFavoriteStatusChanged: (action: FavoriteAction) => void;
-  onMouseEnter?: (id: string) => void;
-  onMouseLeave?: (id: string) => void;
-}
+import {OfferListProps} from '@components/offer-list/offer-list-props.ts';
 
 export function OfferList({ offers, className, onFavoriteStatusChanged, onMouseEnter, onMouseLeave }: OfferListProps) {
   return (
