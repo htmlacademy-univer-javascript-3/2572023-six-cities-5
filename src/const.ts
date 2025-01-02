@@ -24,4 +24,8 @@ export enum AuthStatus {
 
 export const REVIEW_COMMENT_MAX_LENGTH = 300;
 export const REVIEW_COMMENT_MIN_LENGTH = 50;
+export const REVIEW_COUNT_MAX = 10;
+export const REVIEW_COUNT_MIN = 0;
+export const OFFERS_NEARBY_COUNT_MAX = 4;
+export const OFFERS_NEARBY_COUNT_MIN = 0;
 export const MIN_RATING = 1;
