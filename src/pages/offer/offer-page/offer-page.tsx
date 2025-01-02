@@ -13,7 +13,7 @@ import { OfferGallery } from '../offer-gallery/offer-gallery.tsx';
 import { OfferInsideList } from '../offer-inside-list/offer-inside-list.tsx';
 import { FavoriteAction } from '../../../types/favorite-action.ts';
 import { ReviewForm } from '../reviews/review-form/review-form.tsx';
-import { AppRoute } from '../../../const.ts';
+import {AppRoute, OFFERS_NEARBY_COUNT_MAX, OFFERS_NEARBY_COUNT_MIN} from '../../../const.ts';
 import { redirectToRoute, updateComment, updateRating } from '../../../store/action.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -25,7 +25,7 @@ function OfferPage({ canWriteComments, canAddToFavorite, onFavoriteStatusChanged
   const { id } = useParams();
 
   const reviews = useSelector<AppState, Review[]>((state) => state.selectedOffer?.reviews ?? []);
-  const offersNearby = useSelector<AppState, Offer[]>((state) => state.selectedOffer?.offersNearby ?? []);
+  const offersNearby = useSelector<AppState, Offer[]>((state) => state.selectedOffer?.offersNearby.slice(OFFERS_NEARBY_COUNT_MIN, OFFERS_NEARBY_COUNT_MAX) ?? []);
   const offer = useSelector<AppState, Offer | undefined>((state) => state?.selectedOffer?.offer);
   const isOfferLoading = useSelector<AppState, boolean>((state) => state?.isSelectedOfferLoading);
   const reviewIsSending = useSelector<AppState, boolean>((state) => state.selectedOffer?.isReviewFormSending ?? false);
